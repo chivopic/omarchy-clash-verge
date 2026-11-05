@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "jackzasian.clash-verge",
+  "id": "io.github.chivopic.clash-verge",
   "name": "Clash Verge",
   "version": "1.1.0",
-  "author": "jackzasian",
+  "author": "jackzasian and contributors",
   "license": "MIT",
   "description": "Clash Verge proxy status, node switching, latency testing and traffic in the Omarchy bar.",
   "kinds": [
@@ -66,7 +66,7 @@
         "type": "path",
         "label": "API socket path",
         "defaultValue": "",
-        "description": "Leave empty for Clash Verge's default, /tmp/verge/verge-mihomo.sock. Only set this if you moved it."
+        "description": "Leave empty for Clash Verge Rev's user data socket. Set /tmp/verge/verge-mihomo.sock for older versions if needed."
       },
       {
         "key": "controllerUrl",

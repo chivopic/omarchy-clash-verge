@@ -16,8 +16,8 @@ import "model/Clash.js" as Clash
 // would be the wrong model even if it were wired in as a backend there.
 Panel {
   id: root
-  moduleName: "jackzasian.clash-verge"
-  ipcTarget: "jackzasian.clash-verge"
+  moduleName: "io.github.chivopic.clash-verge"
+  ipcTarget: "io.github.chivopic.clash-verge"
   // The base Panel's own IpcHandler only knows open/close/toggle. This widget
   // registers those plus the node/mode/group verbs below on the same target,
   // so a Hyprland bind can flip the proxy without opening anything.
@@ -49,7 +49,8 @@ Panel {
     var s = String(root.setting("sortMode", "config")).trim().toLowerCase()
     return Clash.SORT_MODES.indexOf(s) !== -1 ? s : "config"
   }
-  readonly property var api: Clash.apiConfig(root.setting("socketPath", ""),
+  readonly property var api: Clash.apiConfig(root.setting("socketPath", "") ||
+                                             (Quickshell.env("XDG_DATA_HOME") || Quickshell.env("HOME") + "/.local/share") + "/io.github.clash-verge-rev.clash-verge-rev/verge-mihomo.sock",
                                              root.setting("controllerUrl", ""),
                                              root.setting("secret", ""))
 
@@ -399,7 +400,7 @@ Panel {
   implicitHeight: button.implicitHeight
 
   // ── IPC ───────────────────────────────────────────────────────────────────
-  // `omarchy-shell jackzasian.clash-verge bypass`, and friends. The point is
+  // `omarchy-shell io.github.chivopic.clash-verge bypass`, and friends. The point is
   // Hyprland binds: flipping the proxy should not require the panel.
   IpcHandler {
     target: root.ipcTarget
@@ -604,6 +605,8 @@ Panel {
           spacing: 8
 
           Text {
+
+            textFormat: Text.PlainText
             text: root.barGlyph + "  Clash Verge"
             color: root.fg
             font.family: root.fontFamily
@@ -651,6 +654,8 @@ Panel {
             spacing: Style.space(6)
 
             Text {
+
+              textFormat: Text.PlainText
               text: root.barGlyph
               color: root.connected ? root.okColor : (root.reachable ? "#6b7280" : root.badColor)
               font.family: root.fontFamily
@@ -659,6 +664,8 @@ Panel {
             }
 
             Text {
+
+              textFormat: Text.PlainText
               text: root.summary
               color: root.fg
               font.family: root.fontFamily
@@ -670,6 +677,8 @@ Panel {
             }
 
             Text {
+
+              textFormat: Text.PlainText
               visible: root.actionStatus !== ""
               text: root.actionStatus
               color: root.dim
@@ -687,6 +696,7 @@ Panel {
               Layout.leftMargin: Style.space(28)
               spacing: Style.space(6)
               Text {
+                textFormat: Text.PlainText
                 text: modelData.label
                 color: root.dim
                 font.family: root.fontFamily
@@ -694,6 +704,7 @@ Panel {
                 Layout.preferredWidth: Style.space(66)
               }
               Text {
+                textFormat: Text.PlainText
                 text: modelData.value
                 color: root.fg
                 font.family: root.fontFamily
@@ -712,6 +723,7 @@ Panel {
               Layout.leftMargin: Style.space(28)
               spacing: Style.space(6)
               Text {
+                textFormat: Text.PlainText
                 text: modelData.label
                 color: root.dim
                 font.family: root.fontFamily
@@ -719,6 +731,7 @@ Panel {
                 Layout.preferredWidth: Style.space(66)
               }
               Text {
+                textFormat: Text.PlainText
                 text: modelData.value
                 color: root.dim
                 font.family: root.fontFamily
@@ -730,6 +743,8 @@ Panel {
           }
 
           Text {
+
+            textFormat: Text.PlainText
             visible: root.visibleError !== ""
             text: root.visibleError
             color: root.badColor
@@ -805,6 +820,7 @@ Panel {
               Layout.fillWidth: true
               spacing: Style.space(6)
               Text {
+                textFormat: Text.PlainText
                 text: modelData.label
                 color: root.fg
                 font.family: root.fontFamily
@@ -813,6 +829,7 @@ Panel {
                 Layout.fillWidth: true
               }
               Text {
+                textFormat: Text.PlainText
                 text: modelData.used + " / " + modelData.total
                   + (modelData.expiry !== "" ? " · " + modelData.expiry : "")
                 color: modelData.ratio > 0.9 ? root.warnColor : root.dim
@@ -881,6 +898,7 @@ Panel {
 
         // ── Target list ──
         Text {
+          textFormat: Text.PlainText
           visible: root.targets.length === 0
           Layout.fillWidth: true
           text: root.emptyText
@@ -957,6 +975,8 @@ Panel {
                     spacing: Style.space(6)
 
                     Text {
+
+                      textFormat: Text.PlainText
                       text: rowSurface.isCurrent ? "●" : rowSurface.modelData.glyph
                       color: rowSurface.isCurrent ? root.okColor : root.dim
                       font.family: root.fontFamily
@@ -965,6 +985,8 @@ Panel {
                     }
 
                     Text {
+
+                      textFormat: Text.PlainText
                       text: rowSurface.modelData.label
                       color: root.fg
                       font.family: root.fontFamily
@@ -976,6 +998,8 @@ Panel {
                     }
 
                     Text {
+
+                      textFormat: Text.PlainText
                       visible: rowSurface.modelData.detail !== ""
                       text: rowSurface.modelData.detail
                       color: root.dim
@@ -988,6 +1012,7 @@ Panel {
                     // the numbers along with everything else and dropped them
                     // on the floor.
                     Text {
+                      textFormat: Text.PlainText
                       visible: rowSurface.modelData.delay > 0 || rowSurface.isDead
                       text: rowSurface.isDead ? "dead" : Shared.formatDelay(rowSurface.modelData.delay)
                       color: rowSurface.isDead ? root.badColor
@@ -1006,6 +1031,7 @@ Panel {
 
         // ── Footer ──
         Text {
+          textFormat: Text.PlainText
           Layout.fillWidth: true
           text: "click switches · right-click tests one · j/k move · t tests all · s sorts · b bypasses · / searches"
           color: Qt.rgba(root.fg.r, root.fg.g, root.fg.b, 0.3)

@@ -1,3 +1,7 @@
+# Local fork of Omarchy Clash Verge
+
+Based on [jackzasian/omarchy-clash-verge](https://github.com/jackzasian/omarchy-clash-verge), MIT licensed. This fork uses a separate plugin ID, defaults to the Clash Verge Rev user-data socket (falling back to `~/.local/share` when `XDG_DATA_HOME` is unset), and renders plugin-owned text as plain text. For older installations, set the socket path to `/tmp/verge/verge-mihomo.sock` in plugin settings. Service-mode installations may instead use `/run/clash-verge-service/users/<UID>/verge-mihomo.sock`; configure that path in the widget settings.
+
 # Omarchy Clash Verge
 
 Clash Verge status and node switching in the Omarchy bar. Shows the outbound
@@ -51,7 +55,7 @@ longer version.
 ## How it talks to Clash Verge
 
 Clash Verge exposes a REST API over a local unix socket
-(`/tmp/verge/verge-mihomo.sock`) — no TCP port and no secret for the default
+(`$XDG_DATA_HOME/io.github.clash-verge-rev.clash-verge-rev/verge-mihomo.sock`) — no TCP port and no secret for the default
 setup. A core reached over TCP instead works too, via the external-controller
 URL and secret settings below. This widget:
 
@@ -94,13 +98,13 @@ light ones every 2 seconds, keeping throughput live without re-fetching a
 ## Install
 
 ```bash
-omarchy plugin add https://github.com/jackzasian/omarchy-clash-verge.git --enable
+omarchy plugin add https://github.com/chivopic/omarchy-clash-verge.git --enable
 ```
 
 ## Remove
 
 ```bash
-omarchy plugin remove jackzasian.clash-verge
+omarchy plugin remove io.github.chivopic.clash-verge
 ```
 
 Removal only deletes the plugin's own directory under
@@ -116,23 +120,23 @@ ever talked to Clash Verge's API, never to its config files.
 | Default group | `主代理` | The proxy group the widget steers when it opens. Every other group in your config is one pick away in the panel's group dropdown, so this is only the starting point. Falls back to `GLOBAL` if this name isn't in your config. |
 | Bar label | `Icon` | Icon shows the shield alone. Node adds the active outbound node's name. Speed shows live up/down throughput, which also makes the widget poll `/connections` while closed. |
 | Node order | `Config` | How the node list is sorted when the panel opens: Config keeps your config's order, Latency puts fastest first, Name sorts alphabetically. Press `s` in the panel to cycle it without changing this. |
-| API socket path | *(empty)* | Leave empty for Clash Verge's default, `/tmp/verge/verge-mihomo.sock`. Only set this if you moved it. |
+| API socket path | *(empty)* | Leave empty for Clash Verge's default, `$XDG_DATA_HOME/io.github.clash-verge-rev.clash-verge-rev/verge-mihomo.sock`. Only set this if you moved it. |
 | External controller URL | *(empty)* | Leave empty to use the unix socket. Set to something like `http://127.0.0.1:9097` to talk to a mihomo core over TCP instead — useful when running the core directly rather than through Clash Verge. |
 | API secret | *(empty)* | Only needed when the external controller above has a secret set. Stored in plain text in `shell.json`, like every other shell setting — leave empty when using the unix socket, which needs no secret. |
 
 ## Scripting
 
 Everything the panel can do is also an IPC verb, run as
-`omarchy-shell jackzasian.clash-verge VERB`:
+`omarchy-shell io.github.chivopic.clash-verge VERB`:
 
 ```bash
-omarchy-shell jackzasian.clash-verge status
-omarchy-shell jackzasian.clash-verge bypass
-omarchy-shell jackzasian.clash-verge select '香港pump1'
-omarchy-shell jackzasian.clash-verge mode rule
-omarchy-shell jackzasian.clash-verge tun true
-omarchy-shell jackzasian.clash-verge group 主代理
-omarchy-shell jackzasian.clash-verge test
+omarchy-shell io.github.chivopic.clash-verge status
+omarchy-shell io.github.chivopic.clash-verge bypass
+omarchy-shell io.github.chivopic.clash-verge select '香港pump1'
+omarchy-shell io.github.chivopic.clash-verge mode rule
+omarchy-shell io.github.chivopic.clash-verge tun true
+omarchy-shell io.github.chivopic.clash-verge group 主代理
+omarchy-shell io.github.chivopic.clash-verge test
 ```
 
 The full verb set:
@@ -157,9 +161,9 @@ The full verb set:
 Which makes Hyprland binds like these possible:
 
 ```ini
-bind = $mainMod SHIFT, V, exec, omarchy-shell jackzasian.clash-verge toggleProxy
-bind = $mainMod SHIFT, C, exec, omarchy-shell jackzasian.clash-verge toggle
-bind = $mainMod SHIFT, B, exec, omarchy-shell jackzasian.clash-verge auto
+bind = $mainMod SHIFT, V, exec, omarchy-shell io.github.chivopic.clash-verge toggleProxy
+bind = $mainMod SHIFT, C, exec, omarchy-shell io.github.chivopic.clash-verge toggle
+bind = $mainMod SHIFT, B, exec, omarchy-shell io.github.chivopic.clash-verge auto
 ```
 
 ## Tests
