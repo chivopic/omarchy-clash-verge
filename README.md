@@ -52,6 +52,10 @@ longer version.
 - Real error messages derived from curl exit codes, instead of reporting
   every failure as "Clash Verge isn't running".
 
+## Network and permissions
+
+The widget polls the configured local Unix socket or controller URL while enabled. Latency tests ask the core to contact `http://www.gstatic.com/generate_204`; updating a subscription asks the core to contact its provider. User actions can change the core routing mode, TUN state, selected node, and subscription data. The optional API secret is stored in plain text in Omarchy shell settings and passed to curl as an argument.
+
 ## How it talks to Clash Verge
 
 Clash Verge exposes a REST API over a local unix socket
@@ -92,8 +96,9 @@ light ones every 2 seconds, keeping throughput live without re-fetching a
 ## Requirements
 
 - Omarchy Quattro with shell plugin support
+- `curl` and `bash` available on PATH (Node.js is needed only to run tests)
 - [Clash Verge](https://github.com/clash-verge-rev/clash-verge-rev) running,
-  with its socket at the default path
+  with its socket at the default path, or configure the socket path in widget settings
 
 ## Install
 
